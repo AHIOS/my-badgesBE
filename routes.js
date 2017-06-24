@@ -47,15 +47,15 @@ router.post('/account/delete', passportConfig.isAuthenticated, userController.po
 router.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
 
 /**
- * API examples routes.
+ * Social Accounts routes.
  */
-router.get('/api', apiController.getApi);
-router.get('/api/nyt', apiController.getNewYorkTimes);
-router.get('/api/facebook', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getFacebook);
-router.get('/api/github', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getGithub);
-router.get('/api/twitter', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getTwitter);
-router.post('/api/twitter', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.postTwitter);
-router.get('/api/linkedin', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getLinkedin);
+router.get('/providers', apiController.getApi);
+router.get('/providers/nyt', apiController.getNewYorkTimes);
+router.get('/providers/facebook', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getFacebook);
+router.get('/providers/github', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getGithub);
+router.get('/providers/twitter', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getTwitter);
+router.post('/providers/twitter', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.postTwitter);
+router.get('/providers/linkedin', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getLinkedin);
 
 /**
  * OAuth authentication routes. (Sign in)
@@ -86,15 +86,15 @@ router.get('/auth/linkedin/callback', passport.authenticate('linkedin', { failur
 });
 
 /**
- * OAuth authorization routes. (API examples)
+ * OAuth authorization routes. (Social Accounts)
  */
 router.get('/auth/foursquare', passport.authorize('foursquare'));
-router.get('/auth/foursquare/callback', passport.authorize('foursquare', { failureRedirect: '/api' }), (req, res) => {
-  res.redirect('/api/foursquare');
+router.get('/auth/foursquare/callback', passport.authorize('foursquare', { failureRedirect: '/providers' }), (req, res) => {
+  res.redirect('/providers/foursquare');
 });
 router.get('/auth/tumblr', passport.authorize('tumblr'));
-router.get('/auth/tumblr/callback', passport.authorize('tumblr', { failureRedirect: '/api' }), (req, res) => {
-  res.redirect('/api/tumblr');
+router.get('/auth/tumblr/callback', passport.authorize('tumblr', { failureRedirect: '/providers' }), (req, res) => {
+  res.redirect('/providers/tumblr');
 });
 router.get('/auth/steam', passport.authorize('openid', { state: 'SOME STATE' }));
 router.get('/auth/steam/callback', passport.authorize('openid', { failureRedirect: '/login' }), (req, res) => {
@@ -102,7 +102,7 @@ router.get('/auth/steam/callback', passport.authorize('openid', { failureRedirec
 });
 router.get('/auth/pinterest', passport.authorize('pinterest', { scope: 'read_public write_public' }));
 router.get('/auth/pinterest/callback', passport.authorize('pinterest', { failureRedirect: '/login' }), (req, res) => {
-  res.redirect('/api/pinterest');
+  res.redirect('/providers/pinterest');
 });
 
 
