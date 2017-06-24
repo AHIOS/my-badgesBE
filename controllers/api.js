@@ -8,16 +8,16 @@ const Linkedin = require('node-linkedin')(process.env.LINKEDIN_ID, process.env.L
 
 /**
  * GET /api
- * List of API examples.
+ * List of Social Accounts.
  */
 exports.getApi = (req, res) => {
-  res.render('api/index', {
-    title: 'API Examples'
+  res.render('providers/index', {
+    title: 'Social Accounts'
   });
 };
 
 /**
- * GET /api/facebook
+ * GET /providers/facebook
  * Facebook API example.
  */
 exports.getFacebook = (req, res, next) => {
@@ -25,7 +25,7 @@ exports.getFacebook = (req, res, next) => {
   graph.setAccessToken(token.accessToken);
   graph.get(`${req.user.facebook}?fields=id,name,email,first_name,last_name,gender,link,locale,timezone`, (err, results) => {
     if (err) { return next(err); }
-    res.render('api/facebook', {
+    res.render('providers/facebook', {
       title: 'Facebook API',
       profile: results
     });
@@ -33,7 +33,7 @@ exports.getFacebook = (req, res, next) => {
 };
 
 /**
- * GET /api/scraping
+ * GET /providers/scraping
  * Web scraping example using Cheerio library.
  */
 exports.getScraping = (req, res, next) => {
@@ -44,7 +44,7 @@ exports.getScraping = (req, res, next) => {
     $('.title a[href^="http"], a[href^="https"]').each((index, element) => {
       links.push($(element));
     });
-    res.render('api/scraping', {
+    res.render('providers/scraping', {
       title: 'Web Scraping',
       links
     });
@@ -52,14 +52,14 @@ exports.getScraping = (req, res, next) => {
 };
 
 /**
- * GET /api/github
+ * GET /providers/github
  * GitHub API Example.
  */
 exports.getGithub = (req, res, next) => {
   const github = new GitHub();
   github.repos.get({ owner: 'sahat', repo: 'hackathon-starter' }, (err, repo) => {
     if (err) { return next(err); }
-    res.render('api/github', {
+    res.render('providers/github', {
       title: 'GitHub API',
       repo
     });
@@ -68,7 +68,7 @@ exports.getGithub = (req, res, next) => {
 
 
 /**
- * GET /api/nyt
+ * GET /providers/nyt
  * New York Times API example.
  */
 exports.getNewYorkTimes = (req, res, next) => {
@@ -82,7 +82,7 @@ exports.getNewYorkTimes = (req, res, next) => {
       return next(new Error('Invalid New York Times API Key'));
     }
     const books = JSON.parse(body).results;
-    res.render('api/nyt', {
+    res.render('providers/nyt', {
       title: 'New York Times API',
       books
     });
@@ -90,7 +90,7 @@ exports.getNewYorkTimes = (req, res, next) => {
 };
 
 /**
- * GET /api/twitter
+ * GET /providers/twitter
  * Twitter API example.
  */
 exports.getTwitter = (req, res, next) => {
@@ -103,7 +103,7 @@ exports.getTwitter = (req, res, next) => {
   });
   T.get('search/tweets', { q: 'nodejs since:2013-01-01', geocode: '40.71448,-74.00598,5mi', count: 10 }, (err, reply) => {
     if (err) { return next(err); }
-    res.render('api/twitter', {
+    res.render('providers/twitter', {
       title: 'Twitter API',
       tweets: reply.statuses
     });
@@ -111,7 +111,7 @@ exports.getTwitter = (req, res, next) => {
 };
 
 /**
- * POST /api/twitter
+ * POST /providers/twitter
  * Post a tweet.
  */
 exports.postTwitter = (req, res, next) => {
@@ -121,7 +121,7 @@ exports.postTwitter = (req, res, next) => {
 
   if (errors) {
     req.flash('errors', errors);
-    return res.redirect('/api/twitter');
+    return res.redirect('/providers/twitter');
   }
 
   const token = req.user.tokens.find(token => token.kind === 'twitter');
@@ -134,12 +134,12 @@ exports.postTwitter = (req, res, next) => {
   T.post('statuses/update', { status: req.body.tweet }, (err) => {
     if (err) { return next(err); }
     req.flash('success', { msg: 'Your tweet has been posted.' });
-    res.redirect('/api/twitter');
+    res.redirect('/providers/twitter');
   });
 };
 
 /**
- * GET /api/linkedin
+ * GET /providers/linkedin
  * LinkedIn API example.
  */
 exports.getLinkedin = (req, res, next) => {
@@ -147,7 +147,7 @@ exports.getLinkedin = (req, res, next) => {
   const linkedin = Linkedin.init(token.accessToken);
   linkedin.people.me((err, $in) => {
     if (err) { return next(err); }
-    res.render('api/linkedin', {
+    res.render('providers/linkedin', {
       title: 'LinkedIn API',
       profile: $in
     });
@@ -156,7 +156,7 @@ exports.getLinkedin = (req, res, next) => {
 
 
 exports.getGoogleMaps = (req, res) => {
-  res.render('api/google-maps', {
+  res.render('providers/google-maps', {
     title: 'Google Maps API'
   });
 };
