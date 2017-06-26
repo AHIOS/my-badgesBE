@@ -16,8 +16,9 @@ dotenv.load({ path: '.env.example' });
  */
 const homeController = require('./controllers/home');
 const userController = require('./controllers/user');
-const apiController = require('./controllers/api');
+const providersController = require('./controllers/providers');
 const contactController = require('./controllers/contact');
+const apiController = require('./controllers/APIs/api');
 
 /**
  * API keys and Passport configuration.
@@ -49,13 +50,13 @@ router.get('/account/unlink/:provider', passportConfig.isAuthenticated, userCont
 /**
  * Social Accounts routes.
  */
-router.get('/providers', apiController.getApi);
-router.get('/providers/nyt', apiController.getNewYorkTimes);
-router.get('/providers/facebook', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getFacebook);
-router.get('/providers/github', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getGithub);
-router.get('/providers/twitter', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getTwitter);
-router.post('/providers/twitter', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.postTwitter);
-router.get('/providers/linkedin', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getLinkedin);
+router.get('/providers', providersController.getProviders);
+router.get('/providers/nyt', providersController.getNewYorkTimes);
+router.get('/providers/facebook', passportConfig.isAuthenticated, passportConfig.isAuthorized, providersController.getFacebook);
+router.get('/providers/github', passportConfig.isAuthenticated, passportConfig.isAuthorized, providersController.getGithub);
+router.get('/providers/twitter', passportConfig.isAuthenticated, passportConfig.isAuthorized, providersController.getTwitter);
+router.post('/providers/twitter', passportConfig.isAuthenticated, passportConfig.isAuthorized, providersController.postTwitter);
+router.get('/providers/linkedin', passportConfig.isAuthenticated, passportConfig.isAuthorized, providersController.getLinkedin);
 
 /**
  * OAuth authentication routes. (Sign in)
@@ -105,6 +106,14 @@ router.get('/auth/pinterest/callback', passport.authorize('pinterest', { failure
   res.redirect('/providers/pinterest');
 });
 
+
+router.get('/api', apiController.index);
+router.get('/api/items', apiController.getItems);
+router.get('/api/item/:id', apiController.getItem);
+router.post('/api/item/:id', apiController.postItem);
+router.put('/api/item/:id', apiController.putItem);
+router.delete('/api/item/:id', apiController.deleteItem);
+router.get('/api/items', apiController.getItems);
 
 
 module.exports = router;
