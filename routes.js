@@ -73,10 +73,6 @@ router.get('/auth/github', passport.authenticate('github'));
 router.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/login' }), (req, res) => {
   res.redirect(req.session.returnTo || '/');
 });
-router.get('/auth/google', passport.authenticate('google', { scope: 'profile email' }));
-router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
-  res.redirect(req.session.returnTo || '/');
-});
 router.get('/auth/twitter', passport.authenticate('twitter'));
 router.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/login' }), (req, res) => {
   res.redirect(req.session.returnTo || '/');
@@ -86,34 +82,12 @@ router.get('/auth/linkedin/callback', passport.authenticate('linkedin', { failur
   res.redirect(req.session.returnTo || '/');
 });
 
-/**
- * OAuth authorization routes. (Social Accounts)
- */
-router.get('/auth/foursquare', passport.authorize('foursquare'));
-router.get('/auth/foursquare/callback', passport.authorize('foursquare', { failureRedirect: '/providers' }), (req, res) => {
-  res.redirect('/providers/foursquare');
-});
-router.get('/auth/tumblr', passport.authorize('tumblr'));
-router.get('/auth/tumblr/callback', passport.authorize('tumblr', { failureRedirect: '/providers' }), (req, res) => {
-  res.redirect('/providers/tumblr');
-});
-router.get('/auth/steam', passport.authorize('openid', { state: 'SOME STATE' }));
-router.get('/auth/steam/callback', passport.authorize('openid', { failureRedirect: '/login' }), (req, res) => {
-  res.redirect(req.session.returnTo || '/');
-});
-router.get('/auth/pinterest', passport.authorize('pinterest', { scope: 'read_public write_public' }));
-router.get('/auth/pinterest/callback', passport.authorize('pinterest', { failureRedirect: '/login' }), (req, res) => {
-  res.redirect('/providers/pinterest');
-});
-
-
 router.get('/api', apiController.index);
 router.get('/api/items', apiController.getItems);
-router.get('/api/item/:id', apiController.getItem);
-router.post('/api/item/:id', apiController.postItem);
-router.put('/api/item/:id', apiController.putItem);
-router.delete('/api/item/:id', apiController.deleteItem);
-router.get('/api/items', apiController.getItems);
+router.get('/api/items/:shortname', apiController.getItem);
+router.post('/api/items', apiController.postItem);
+router.put('/api/items/:id', apiController.putItem);
+router.delete('/api/items/:id', apiController.deleteItem);
 
 
 module.exports = router;
