@@ -8,7 +8,7 @@ const dotenv = require('dotenv');
  * Load environment variables from .env file, where API keys and passwords are configured.
  */
 
-/*  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<- Add/remove one '/' here to toggle active code block
+//*  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<- Add/remove one '/' here to toggle active code block
 dotenv.load({ path: '.env.example' });
 /*/
 dotenv.load({ path: '.env.local' });
