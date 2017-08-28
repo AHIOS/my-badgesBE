@@ -12,7 +12,7 @@
     "start": "node app.js",
     "test": "mocha --reporter spec",
     "postinstall": "npm rebuild node-sass",
-    "heroku-postbuild": "cd clients/react/build && git clone https://github.com/AHIOS/my-badgesREACT.git && echo This runs afterwards.",
+    "heroku-postbuild": "mkdir clients/react/build && cd clients/react/build && git clone https://github.com/AHIOS/my-badgesREACT.git && echo This runs afterwards.",
     "eslint": "eslint **/*.js"
   },
   "dependencies": {
