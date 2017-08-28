@@ -11,8 +11,8 @@
   "scripts": {
     "start": "node app.js",
     "test": "mocha --reporter spec",
-    "postinstall": "npm rebuild node-sass && echo EXECUTING POSTINSTALL SCRIPTS",
-    "heroku-postbuild": "echo This runs afterwards.",
+    "postinstall": "npm rebuild node-sass",
+    "heroku-postbuild": "cd clients/react/build && git clone https://github.com/AHIOS/my-badgesREACT.git && echo This runs afterwards.",
     "eslint": "eslint **/*.js"
   },
   "dependencies": {
