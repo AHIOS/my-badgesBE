@@ -13,6 +13,7 @@
     "test": "mocha --reporter spec",
     "postinstall": "npm rebuild node-sass && echo EXECUTING POSTINSTALL SCRIPTS",
     "heroku-postbuild": "echo This runs afterwards.",
+    "eslint": "eslint **/*.js"
   },
   "dependencies": {
     "bcrypt-nodejs": "^0.0.3",
