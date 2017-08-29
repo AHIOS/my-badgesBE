@@ -12,7 +12,7 @@
     "start": "node app.js",
     "test": "mocha --reporter spec",
     "postinstall": "npm rebuild node-sass && echo EXECUTING POSTINSTALL SCRIPTS",
-    "heroku-postbuild": "mkdir clients && cd clients && git clone git+https://git@github.com/visionmedia/express.git echo This runs afterwards.",
+    "heroku-postbuild": "mkdir clients && cd clients && git clone https://github.com/AHIOS/my-badgesBE.git echo This runs afterwards.",
     "eslint": "eslint **/*.js"
   },
   "dependencies": {
