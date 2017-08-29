@@ -114,7 +114,7 @@ app.listen(app.get('port'), () => {
 app.use('/', router);
 
 app.get('/REACT/*', function(req, res) {
-  res.sendFile(path.resolve(__dirname, 'clients/react/build/my-badgesREACT/index.html'));
+  res.sendFile(path.resolve(__dirname, 'clients/my-badgesREACT/index.html'));
 });
 
 module.exports = app;
