@@ -96,7 +96,7 @@ app.use((req, res, next) => {
   next();
 });
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
-app.use("/clients", express.static(__dirname + '/clients'));
+app.use("/client", express.static(__dirname + '/client'));
 
 /**
  * Error Handler.
@@ -114,7 +114,7 @@ app.listen(app.get('port'), () => {
 app.use('/', router);
 
 app.get('/REACT/*', function(req, res) {
-  res.sendFile(path.resolve(__dirname, 'clients/my-badgesREACT/index.html'));
+  res.sendFile(path.resolve(__dirname, 'client/build/index.html'));
 });
 
 module.exports = app;
