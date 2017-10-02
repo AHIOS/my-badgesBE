@@ -8,7 +8,7 @@ const dotenv = require('dotenv');
  * Load environment variables from .env file, where API keys and passwords are configured.
  */
 
-//*  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<- Add/remove one '/' here to toggle active code block
+//*  <<- Add/remove one '/' here to toggle active code block
 dotenv.load({ path: '.env.example' });
 /*/
 dotenv.load({ path: '.env.local' });
@@ -86,7 +86,7 @@ router.get('/auth/linkedin/callback', passport.authenticate('linkedin', { failur
   res.redirect(req.session.returnTo || '/');
 });
 
-router.get('/api', apiController.index);
+router.get('/api', passport.authenticate('jwt'), apiController.index);
 router.get('/api/items', apiController.getItems);
 router.get('/api/items/:shortname', apiController.getItem);
 router.post('/api/items', apiController.postItem);

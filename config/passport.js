@@ -9,6 +9,44 @@ const OpenIDStrategy = require('passport-openid').Strategy;
 const OAuthStrategy = require('passport-oauth').OAuthStrategy;
 const OAuth2Strategy = require('passport-oauth').OAuth2Strategy;
 
+var jwt = require('jsonwebtoken');
+var passportJWT = require("passport-jwt");
+var ExtractJwt = passportJWT.ExtractJwt;
+const JwtStrategy = passportJWT.Strategy;
+
+
+var userExtractor = function(req) {
+    var token = null;
+    // console.log('USEREXTRACTOR');
+    if (req.user)
+    {
+            // console.log(req.user);
+            const userToken = req.user.tokens.find(token => token.kind === 'jwt').JWTtoken;
+            token = userToken;
+    }
+    return token;
+
+};
+
+
+var jwtOptions = {}
+jwtOptions.jwtFromRequest = userExtractor;
+jwtOptions.secretOrKey = process.env.JWTSECRET;
+
+var strategy = new JwtStrategy(jwtOptions, function(jwt_payload, next) {
+  console.log('JWTpayload received', jwt_payload);
+  User.findById(jwt_payload.id, (err, user) => {
+    if (user) {
+      next(null, user);
+    } else {
+      next(null, false);
+    }
+  });
+
+});
+
+passport.use(strategy);
+
 const User = require('../models/User');
 
 passport.serializeUser((user, done) => {
@@ -196,6 +234,8 @@ passport.use(new TwitterStrategy({
           user.profile.name = user.profile.name || profile.displayName;
           user.profile.location = user.profile.location || profile._json.location;
           user.profile.picture = user.profile.picture || profile._json.profile_image_url_https;
+          var JWTtoken = jwt.sign({id: user.id}, process.env.JWTSECRET);
+          user.tokens.push({ kind: 'jwt', JWTtoken });
           user.save((err) => {
             if (err) { return done(err); }
             req.flash('info', { msg: 'Twitter account has been linked.' });
@@ -220,6 +260,8 @@ passport.use(new TwitterStrategy({
       user.profile.name = profile.displayName;
       user.profile.location = profile._json.location;
       user.profile.picture = profile._json.profile_image_url_https;
+      var JWTtoken = jwt.sign({id: user.id}, process.env.JWTSECRET);
+      user.tokens.push({ kind: 'jwt', JWTtoken });
       user.save((err) => {
         done(err, user);
       });
